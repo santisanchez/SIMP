@@ -19,9 +19,10 @@ class CreateStoresTable extends Migration
             $table->string('document_number');
             $table->string('address');
             $table->string('phone');
-            $table->integer('owner_id')->unsigned();
-            $table->foreign('owner_id')->references('id')->on('users');
+            $table->integer('user_id')->unsigned();
             $table->timestamps();
+        });
+        Schema::table('stores',function (Blueprint $table){
         });
     }
 
