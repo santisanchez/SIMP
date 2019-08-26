@@ -39,6 +39,11 @@ if(Auth::attempt(['email' => request('email'), 'password' => request('password')
    return response()->json(['error'=>'Unauthorised'], 401); 
    } 
 }
+
+public function users(){
+    $users = User::all();
+    return response()->json(['success'=>$users],$this->successStatus);
+}
   
     public function getUser() {
         $user = Auth::user();
