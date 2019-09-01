@@ -14,15 +14,14 @@ class CreateStoresTable extends Migration
     public function up()
     {
         Schema::create('stores', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id')->unsigned();
             $table->string('name');
             $table->string('document_number');
             $table->string('address');
             $table->string('phone');
             $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
-        });
-        Schema::table('stores',function (Blueprint $table){
         });
     }
 

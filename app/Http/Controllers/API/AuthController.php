@@ -2,7 +2,8 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request; 
-use App\Http\Controllers\Controller; 
+use App\Http\Controllers\Controller;
+use App\Store;
 use App\User; 
 use Illuminate\Support\Facades\Auth; 
 use Validator;
@@ -33,7 +34,10 @@ class AuthController extends Controller
 public function login(){ 
 if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
    $user = Auth::user(); 
-   $success['token'] =  $user->createToken('SIMP')->accessToken; 
+   $success['id'] = $user->id;
+   $success['token'] =  $user->createToken('SIMP')->accessToken;
+   $success['name'] = $user->name;
+   $success['store'] = Store::where('user_id','=',$user->id)->get();
     return response()->json(['success' => $success], $this->successStatus); 
   } else{ 
    return response()->json(['error'=>'Unauthorised'], 401); 
