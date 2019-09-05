@@ -13,6 +13,15 @@ class ProductController extends Controller
 {
     public $successStatus = 200;
 
+
+    /**
+     * This function creates a product to a store
+     *
+     * Create a product and relates it to the current store
+     *
+     * @param Request $request object with name,price,quantity and store_id
+     * 
+     **/
     public function CreateProduct(Request $request)
     {
         $validator = Validator::make($request->all(), [ 
