@@ -12,6 +12,14 @@ class AuthController extends Controller
 {
  public $successStatus = 200;
   
+ /**
+  * This function registers an user
+  *
+  *
+  * @param Request $request Request object with name,email,password and c_password
+  * @return JSON
+  * @throws conditon
+  **/
  public function register(Request $request) {    
     $validator = Validator::make($request->all(), [ 
               'name' => 'required',
@@ -30,7 +38,12 @@ class AuthController extends Controller
     return response()->json(['success'=>$success], $this->successStatus); 
 }
   
-   
+/**
+ * This function authenticates an user
+ *
+ *  structure success.token, success.name, success.store, success.id 
+ * @return JSON with store, username and authtoken
+ **/
 public function login(){ 
 if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){ 
    $user = Auth::user(); 
@@ -43,14 +56,13 @@ if(Auth::attempt(['email' => request('email'), 'password' => request('password')
    return response()->json(['error'=>'Unauthorised'], 401); 
    } 
 }
-
-public function users(){
-    $users = User::all();
-    return response()->json(['success'=>$users],$this->successStatus);
+/**
+ * This function returns the current user
+ *
+ * @return User
+ **/
+public function getUser() {
+    $user = Auth::user();
+    return response()->json(['success' => $user], $this->successStatus); 
 }
-  
-    public function getUser() {
-        $user = Auth::user();
-        return response()->json(['success' => $user], $this->successStatus); 
-    }
 } 
