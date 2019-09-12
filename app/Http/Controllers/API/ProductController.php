@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    public $successStatus = 200;
+    public $SUCCESS_STATUS = 200;
+    public $FAILURE_STATUS = 401;
 
 
     /**
@@ -30,7 +31,7 @@ class ProductController extends Controller
             'quantity' => 'required'
         ]);   
         if ($validator->fails()) {          
-            return response()->json(['error'=>$validator->errors()], 401);                        
+            return response()->json(['error'=>$validator->errors()], $this->FAILURE_STATUS);                        
         }
         if(Auth::user()->role_id < 4){
             $product = new Product();
@@ -39,7 +40,10 @@ class ProductController extends Controller
             $product->quantity = $request->quantity;
             $product->store_id = $request->store_id;
             $product->save();
-            return response()->json(['success'=>'Producto agregado exitosamente!','product'=>$product],$this->successStatus);
+            return response()->json(['success'=>'Producto agregado exitosamente!','product'=>$product],$this->SUCCESS_STATUS);
         }
+        return response()->json(['error'=>'Los productos unicamente son agregados por el dueño'],$this->FAILURE_STATUS)
     }
+
+    
 }

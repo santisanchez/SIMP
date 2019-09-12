@@ -12,7 +12,12 @@ use Validator;
 class StoreController extends Controller{
 
     public $successStatus = 200;
-
+    /**
+     * This function create a store and relates it to a user type owner
+     *
+     *
+     * @param Request $request request with store name,NIT or document, address and phone
+     **/
     public function CreateStore(Request $request)
     {
         $validator = Validator::make($request->all(), [ 
@@ -34,12 +39,31 @@ class StoreController extends Controller{
             $store->save();
             return response()->json(['success'=>'Tu tienda ha sido creada exitosamente'],$this->successStatus);
         }
-        return response()->json(['fail'=>'No se pudo registrar tu tienda'],401);
+        return response()->json(['fail'=>'El usuario no es un dueño de tienda'],401);
     }
 
+    /**
+     * Returns all the products of a given store
+     *
+     * Returns all products of a given store with all its properties
+     *
+     * @param Request $request store_id of the store
+     **/
     public function GetProducts(Request $request){
         $store = Store::find($request->store_id);
         $products = $store->products;
         return response()->json(['success'=>$products],$this->successStatus);
+    }
+
+    /**
+     * This function sells a given amount of products from the store
+     *
+     *
+     * @param Request $request
+     **/
+    public function SellProducts(Request $request)
+    {
+        // $products = $request->products;
+        return response()->json($request->products);
     }
 }
