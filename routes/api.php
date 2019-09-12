@@ -18,10 +18,14 @@ Route::prefix('v1')->group(function(){
         Route::post('/register', 'Api\AuthController@register');
         Route::get('/users','Api\AuthController@users');
     Route::group(['middleware' => 'auth:api'], function(){
+        /*Auth Controller*/
         Route::post('getUser', 'Api\AuthController@getUser');
+        /*Store Controller */
         Route::post('createStore', 'Api\StoreController@CreateStore');
-        Route::post('createProduct','Api\ProductController@CreateProduct');
         Route::post('storeProducts','Api\StoreController@GetProducts');
+        Route::post('sellProducts','Api\StoreController@SellProducts');
+        /*Product Controller */
+        Route::post('createProduct','Api\ProductController@CreateProduct');
     });
 });
 Route::middleware('auth:api')->get('/user', function (Request $request) {
