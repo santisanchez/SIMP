@@ -10,6 +10,10 @@ class Product extends Model
         'store_id','name','price','quantity'
     ];
 
+
+    /**
+     * Return the store the product belongs to
+     **/
     public function store(){
         return $this->belongsTo('App\Store','store_id');
     }

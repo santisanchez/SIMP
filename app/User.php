@@ -38,6 +38,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+    /*
+    * Returns the role of the current user
+    */
     public function role(){
         return $this->belongsTo('App\Role');
     }
