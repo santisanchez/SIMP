@@ -63,7 +63,11 @@ class StoreController extends Controller{
      **/
     public function SellProducts(Request $request)
     {
-        // $products = $request->products;
+        $products = $request->products;
+        $store_products = Store::find($request->store_id)->products;
+        foreach ($products as $products) {
+
+        }
         return response()->json($request->products);
     }
 }
