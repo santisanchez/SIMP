@@ -42,7 +42,7 @@ class ProductController extends Controller
             $product->save();
             return response()->json(['success'=>'Producto agregado exitosamente!','product'=>$product],$this->SUCCESS_STATUS);
         }
-        return response()->json(['error'=>'Los productos unicamente son agregados por el dueño'],$this->FAILURE_STATUS)
+        return response()->json(['error'=>'Los productos unicamente son agregados por el dueño'],$this->FAILURE_STATUS);
     }
 
     
