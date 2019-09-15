@@ -17,4 +17,17 @@ class Product extends Model
     public function store(){
         return $this->belongsTo('App\Store','store_id');
     }
+
+    /**
+     *  Sells a given amount of this product
+     *
+     * @param $quantity Quantity of product to sell
+     **/
+    public function sell($quantity)
+    {
+        if($this->quantity >= $quantity){
+            $this->quantity = $this->quantity - $quantity;
+            $this->save();
+        }
+    }
 }

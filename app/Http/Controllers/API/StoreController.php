@@ -61,9 +61,26 @@ class StoreController extends Controller{
      *
      * @param Request $request
      **/
+    /**
+     * This function sells a given amount of products from the store
+     *
+     *
+     * @param Request $request
+     **/
     public function SellProducts(Request $request)
     {
-        // $products = $request->products;
+        $products = $request->products;
+        $store_products = Store::find($request->store_id)->products;
+        foreach ($products as $product) {
+            foreach ($store_products as $store_product) {
+                if($store_product->id == $product['id']){
+                    // if($store_product->quantity >= $product['quantity']){
+                        $store_product->sell($product['quantity']);
+                    // }
+                }
+            }
+        }
+        
         return response()->json($request->products);
     }
 }
