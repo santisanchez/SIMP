@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Bill;
+use App\BillProduct;
 use App\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller; 
+use App\Http\Controllers\Controller;
+use App\Product;
 use Validator;
 
 
@@ -70,17 +73,29 @@ class StoreController extends Controller{
     public function SellProducts(Request $request)
     {
         $products = $request->products;
-        $store_products = Store::find($request->store_id)->products;
-        foreach ($products as $product) {
-            foreach ($store_products as $store_product) {
-                if($store_product->id == $product['id']){
-                    // if($store_product->quantity >= $product['quantity']){
-                        $store_product->sell($product['quantity']);
-                    // }
+        $price_count = 0;
+        $product_ids = array_column($request->products,'id');
+        $store_products = Product::find($product_ids);
+        $bill = new Bill;
+        $bill->store_id = $request->store_id;
+        $bill->save();
+        
+        foreach ($store_products as $store_product) {
+            foreach ($products as $product) {
+                if($product['id'] == $store_product->id){
+                    $store_product->sell($product['quantity']);
+                    $price_count += $product['quantity']*$store_product->price;
+                    $bill_product = new BillProduct;
+                    $bill_product->bill_id = $bill->id;
+                    $bill_product->product_id = $product['id'];
+                    $bill_product->quantity = $product['quantity'];
+                    $bill_product->save();
                 }
             }
         }
-        
-        return response()->json($request->products);
+        $bill->price = $price_count;
+        $bill->save();
+        return response()->json($bill->products());
+
     }
 }
