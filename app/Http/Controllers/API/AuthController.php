@@ -50,7 +50,7 @@ if(Auth::attempt(['email' => request('email'), 'password' => request('password')
    $success['id'] = $user->id;
    $success['token'] =  $user->createToken('SIMP')->accessToken;
    $success['name'] = $user->name;
-   $success['store'] = Store::where('user_id','=',$user->id)->get();
+   $success['store'] = Store::where('user_id','=',$user->id)->first();
     return response()->json(['success' => $success], $this->successStatus); 
   } else{ 
    return response()->json(['error'=>'Unauthorised'], 401); 
