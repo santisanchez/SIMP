@@ -25,4 +25,11 @@ class Store extends Model
     public function products(){
         return $this->hasMany('App\Product','store_id');
     }
+
+    /*
+    * Returns all the Bills of the current store
+    */
+    public function bills(){
+        return $this->hasMany('App\Bill','store_id');
+    }
 }
