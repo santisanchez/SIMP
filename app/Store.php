@@ -30,6 +30,6 @@ class Store extends Model
     * Returns all the Bills of the current store
     */
     public function bills(){
-        return $this->hasMany('App\Bill','store_id');
+        return $this->hasMany('App\Bill');
     }
 }
