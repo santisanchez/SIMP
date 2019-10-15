@@ -24,6 +24,7 @@ Route::prefix('v1')->group(function(){
         Route::post('createStore', 'api\StoreController@CreateStore');
         Route::post('storeProducts','api\StoreController@GetProducts');
         Route::post('sellProducts','api\StoreController@SellProducts');
+        Route::get('getBills/{store}','api\StoreController@GetBills');
         /*Product Controller */
         Route::post('createProduct','api\ProductController@CreateProduct');
     });
