@@ -17,6 +17,6 @@ class BillProduct extends Model
     }
 
     public function product(){
-        return $this->belongsTo('App\Bill','product_id');
+        return $this->hasOne('App\Product','id','product_id');
     }
 }
