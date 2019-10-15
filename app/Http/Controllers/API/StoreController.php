@@ -40,7 +40,7 @@ class StoreController extends Controller{
             $store->phone = $request->phone;
             $store->user_id = Auth::user()->id;
             $store->save();
-            return response()->json(['success'=>'Tu tienda ha sido creada exitosamente'],$this->successStatus);
+            return response()->json(['success'=>$store->id],$this->successStatus);
         }
         return response()->json(['fail'=>'El usuario no es un dueño de tienda'],401);
     }
@@ -78,7 +78,8 @@ class StoreController extends Controller{
         $store_products = Product::find($product_ids);
         $bill = new Bill();
         $bill->store_id = $request->store_id;
-        //$bill->save();
+        $bill->price = 0;
+        $bill->save();
         
         foreach ($store_products as $store_product) {
             foreach ($products as $product) {
