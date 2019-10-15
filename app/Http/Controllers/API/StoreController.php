@@ -76,9 +76,9 @@ class StoreController extends Controller{
         $price_count = 0;
         $product_ids = array_column($request->products,'id');
         $store_products = Product::find($product_ids);
-        $bill = new Bill;
+        $bill = new Bill();
         $bill->store_id = $request->store_id;
-        $bill->save();
+        //$bill->save();
         
         foreach ($store_products as $store_product) {
             foreach ($products as $product) {
