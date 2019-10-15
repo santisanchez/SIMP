@@ -34,6 +34,8 @@ class AuthController extends Controller
     $input['password'] = bcrypt($input['password']);
     $user = User::create($input); 
     $success['token'] =  $user->createToken('SIMP')->accessToken;
+    $success['id'] = $user->id;
+    $success['name'] = $user->name;
 
     return response()->json(['success'=>$success], $this->successStatus); 
 }
@@ -50,10 +52,10 @@ if(Auth::attempt(['email' => request('email'), 'password' => request('password')
    $success['id'] = $user->id;
    $success['token'] =  $user->createToken('SIMP')->accessToken;
    $success['name'] = $user->name;
-   $success['store'] = Store::where('user_id','=',$user->id)->first();
+   $success['store'] = Store::where('user_id','=',$user->id)->first()->name;
     return response()->json(['success' => $success], $this->successStatus); 
   } else{ 
-   return response()->json(['error'=>'Unauthorised'], 401); 
+   return response()->json(['error'=>'Correo o contraseña incorrectos'], 401); 
    } 
 }
 /**
