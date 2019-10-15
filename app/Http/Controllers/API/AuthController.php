@@ -52,7 +52,7 @@ if(Auth::attempt(['email' => request('email'), 'password' => request('password')
    $success['id'] = $user->id;
    $success['token'] =  $user->createToken('SIMP')->accessToken;
    $success['name'] = $user->name;
-   $success['store'] = Store::where('user_id','=',$user->id)->first()->name;
+   $success['store'] = Store::where('user_id','=',$user->id)->select('id','name')->get();
     return response()->json(['success' => $success], $this->successStatus); 
   } else{ 
    return response()->json(['error'=>'Correo o contraseña incorrectos'], 401); 
