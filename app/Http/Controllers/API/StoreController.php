@@ -96,6 +96,15 @@ class StoreController extends Controller{
         $bill->price = $price_count;
         $bill->save();
         return response()->json($bill->products());
+    }
 
+    public function GetBills(Store $store)
+    {
+        $storeBills = $store->bills;
+        foreach ($storeBills as $storeBill) {
+            $storeBill->products = BillProduct::where('bill_id',$storeBill->id)->with('product')->get();
+
+        }
+        return response()->json($storeBills,$this->successStatus);
     }
 }
