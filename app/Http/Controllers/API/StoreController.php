@@ -108,4 +108,19 @@ class StoreController extends Controller{
         }
         return response()->json($storeBills,$this->successStatus);
     }
+
+    public function StoreSales(Request $request)
+    {
+        $store = Store::where('id',$request->store_id)->with(array('products'=>function($query){
+            $query->select('id','name','quantity');
+        }))->first();
+        foreach ($store->Products as $product) {
+            $product_bills = BillProduct::where('product_id',$product->id)->get();
+            $product['selled_quantity'] = 0;
+            foreach ($product_bills as $product_bill) {
+                $product['selled_quantity'] = $product['selled_quantity'] + $product_bill->quantity;
+            }
+        }
+        return response()->json($store->Products);
+    }
 }
